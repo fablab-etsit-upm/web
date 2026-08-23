@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FabLab ETSIT UPM | Laboratorio de Fabricación Digital</title>
+<meta name="description" content="FabLab ETSIT UPM: el nuevo laboratorio de fabricación digital y prototipado de la Escuela Técnica Superior de Ingenieros de Telecomunicación de la UPM. Únete o patrocina el futuro." />
+
+<!-- Tailwind CSS via CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Retro display fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<script>
+  // Tailwind theme customization: retro synthwave palette
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          "retro-bg": "#0d0221",
+          "retro-bg-2": "#170b3b",
+          "retro-panel": "#1a1030",
+          "neon-pink": "#ff2d95",
+          "neon-cyan": "#05d9e8",
+          "neon-yellow": "#f9f871",
+          "neon-purple": "#a855f7",
+          "neon-orange": "#ff8c42",
+        },
+        fontFamily: {
+          display: ['"Press Start 2P"', "cursive"],
+          retro: ['"Orbitron"', "sans-serif"],
+        },
+        boxShadow: {
+          "neon-pink": "0 0 5px #ff2d95, 0 0 20px #ff2d95, 0 0 45px #ff2d95",
+          "neon-cyan": "0 0 5px #05d9e8, 0 0 20px #05d9e8, 0 0 45px #05d9e8",
+          "neon-yellow": "0 0 5px #f9f871, 0 0 20px #f9f871",
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  /* Base retro atmosphere */
+  body {
+    background-color: #0d0221;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(168, 85, 247, 0.25), transparent 40%),
+      radial-gradient(circle at 85% 10%, rgba(5, 217, 232, 0.2), transparent 45%),
+      radial-gradient(circle at 50% 80%, rgba(255, 45, 149, 0.15), transparent 50%);
+    font-family: "Orbitron", sans-serif;
+    color: #f5f3ff;
+  }
+
+  .font-display {
+    font-family: "Press Start 2P", cursive;
+  }
+
+  /* Scanline overlay for CRT feel */
+  .crt-scanlines::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.035) 0px,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 2px,
+      transparent 3px
+    );
+    z-index: 60;
+    mix-blend-mode: overlay;
+  }
+
+  /* Neon text glow helpers */
+  .text-glow-pink {
+    text-shadow: 0 0 6px #ff2d95, 0 0 18px #ff2d95, 0 0 40px rgba(255, 45, 149, 0.6);
+  }
+  .text-glow-cyan {
+    text-shadow: 0 0 6px #05d9e8, 0 0 18px #05d9e8, 0 0 40px rgba(5, 217, 232, 0.6);
+  }
+  .text-glow-yellow {
+    text-shadow: 0 0 6px #f9f871, 0 0 16px rgba(249, 248, 113, 0.7);
+  }
+
+  /* Synthwave horizon grid for the hero background */
+  .synth-grid {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .synth-grid::after {
+    content: "";
+    position: absolute;
+    left: -50%;
+    right: -50%;
+    bottom: -10%;
+    height: 140%;
+    background-image:
+      linear-gradient(rgba(5, 217, 232, 0.35) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(5, 217, 232, 0.35) 1px, transparent 1px);
+    background-size: 60px 60px;
+    transform: perspective(300px) rotateX(65deg);
+    animation: grid-scroll 6s linear infinite;
+    opacity: 0.5;
+  }
+  @keyframes grid-scroll {
+    from { background-position: 0 0, 0 0; }
+    to { background-position: 0 60px, 0 0; }
+  }
+
+  .sun-glow {
+    position: absolute;
+    left: 50%;
+    top: 12%;
+    width: 260px;
+    height: 260px;
+    transform: translateX(-50%);
+    border-radius: 9999px;
+    background: linear-gradient(180deg, #f9f871 0%, #ff8c42 45%, #ff2d95 100%);
+    box-shadow: 0 0 80px rgba(255, 140, 66, 0.6);
+    opacity: 0.85;
+    z-index: 0;
+  }
+
+  /* Glitch flicker for the hero title */
+  .glitch-active {
+    animation: glitch-flicker 0.25s linear 1;
+  }
+  @keyframes glitch-flicker {
+    0% { clip-path: inset(0 0 90% 0); transform: translate(-2px, 1px); }
+    20% { clip-path: inset(20% 0 60% 0); transform: translate(2px, -1px); }
+    40% { clip-path: inset(60% 0 10% 0); transform: translate(-1px, 2px); }
+    60% { clip-path: inset(10% 0 70% 0); transform: translate(1px, -2px); }
+    80% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 0); }
+    100% { clip-path: inset(0 0 0 0); transform: translate(0, 0); }
+  }
+
+  /* Retro cards */
+  .retro-card {
+    background: linear-gradient(145deg, #1a1030, #170b3b);
+    border: 2px solid rgba(5, 217, 232, 0.35);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .retro-card:hover {
+    transform: translateY(-6px);
+    border-color: #ff2d95;
+    box-shadow: 0 0 25px rgba(255, 45, 149, 0.45);
+  }
+
+  /* Buttons */
+  .btn-neon-pink {
+    background-color: #ff2d95;
+    box-shadow: 0 0 10px rgba(255, 45, 149, 0.7);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+  .btn-neon-pink:hover {
+    background-color: #ff5cad;
+    box-shadow: 0 0 25px rgba(255, 45, 149, 0.95);
+    transform: translateY(-2px);
+  }
+  .btn-neon-cyan {
+    background-color: transparent;
+    border: 2px solid #05d9e8;
+    color: #05d9e8;
+    transition: all 0.2s ease;
+  }
+  .btn-neon-cyan:hover {
+    background-color: #05d9e8;
+    color: #0d0221;
+    box-shadow: 0 0 25px rgba(5, 217, 232, 0.85);
+    transform: translateY(-2px);
+  }
+
+  /* Progress bar shimmer */
+  .progress-fill {
+    background: linear-gradient(90deg, #ff2d95, #a855f7, #05d9e8);
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+    box-shadow: 0 0 15px rgba(255, 45, 149, 0.6);
+  }
+  @keyframes shimmer {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200% 0%; }
+  }
+
+  /* Nav link active underline */
+  .nav-link {
+    position: relative;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0%;
+    height: 2px;
+    background: #05d9e8;
+    transition: width 0.25s ease;
+  }
+  .nav-link:hover::after,
+  .nav-link.active-link::after {
+    width: 100%;
+  }
+  .nav-link.active-link {
+    color: #05d9e8;
+  }
+
+  ::selection {
+    background: #ff2d95;
+    color: #0d0221;
+  }
+
+  /* Scrollbar retro styling */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0d0221;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(#ff2d95, #05d9e8);
+    border-radius: 6px;
+  }
+
+  .badge-tier {
+    box-shadow: 0 0 12px currentColor;
+  }
+</style>
+</head>
+
+<body class="crt-scanlines antialiased">
+
+  <!-- ============ NAVIGATION ============ -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-retro-bg/90 backdrop-blur border-b-2 border-neon-cyan/40">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="#inicio" class="flex items-center gap-2 font-display text-neon-pink text-xs sm:text-sm text-glow-pink">
+          <span aria-hidden="true">🕹️</span>
+          <span>FABLAB·ETSIT</span>
+        </a>
+
+        <div class="hidden lg:flex items-center gap-6 text-sm font-semibold tracking-wide">
+          <a href="#proyecto" class="nav-link hover:text-neon-cyan transition-colors">El Proyecto</a>
+          <a href="#zonas" class="nav-link hover:text-neon-cyan transition-colors">Zonas</a>
+          <a href="#clubes" class="nav-link hover:text-neon-cyan transition-colors">Clubes</a>
+          <a href="#reparador" class="nav-link hover:text-neon-cyan transition-colors">El Reparador</a>
+          <a href="#impacto" class="nav-link hover:text-neon-cyan transition-colors">Impacto</a>
+          <a href="#patrocinio" class="nav-link hover:text-neon-cyan transition-colors">Patrocinio</a>
+          <a href="#contacto" class="btn-neon-pink text-retro-bg font-bold px-4 py-2 rounded-full">Contactar</a>
+        </div>
+
+        <button id="mobileMenuButton" aria-label="Abrir menú de navegación" aria-expanded="false" class="lg:hidden text-neon-cyan text-2xl">
+          <span id="mobileMenuIcon">☰</span>
+        </button>
+      </div>
+
+      <!-- Mobile menu panel -->
+      <div id="mobileMenuPanel" class="hidden lg:hidden pb-4 flex flex-col gap-3 text-sm font-semibold">
+        <a href="#proyecto" class="mobile-nav-link hover:text-neon-cyan">El Proyecto</a>
+        <a href="#zonas" class="mobile-nav-link hover:text-neon-cyan">Zonas</a>
+        <a href="#clubes" class="mobile-nav-link hover:text-neon-cyan">Clubes</a>
+        <a href="#reparador" class="mobile-nav-link hover:text-neon-cyan">El Reparador</a>
+        <a href="#impacto" class="mobile-nav-link hover:text-neon-cyan">Impacto</a>
+        <a href="#patrocinio" class="mobile-nav-link hover:text-neon-cyan">Patrocinio</a>
+        <a href="#contacto" class="mobile-nav-link btn-neon-pink text-retro-bg font-bold px-4 py-2 rounded-full text-center">Contactar</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ============ 1. HERO ============ -->
+  <section id="inicio" class="relative pt-32 pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden min-h-[90vh] flex items-center">
+    <div class="synth-grid"></div>
+    <div class="sun-glow"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto text-center">
+      <p class="font-display text-neon-cyan text-glow-cyan text-[10px] sm:text-xs mb-6 tracking-widest">ETSIT · UPM · SÓTANO EDIFICIO A</p>
+
+      <h1 id="heroTitle" class="font-display text-3xl sm:text-5xl lg:text-6xl leading-tight text-neon-pink text-glow-pink mb-6">
+        FABLAB<br class="hidden sm:block" /> ETSIT UPM
+      </h1>
+
+      <p class="text-lg sm:text-2xl font-bold text-neon-yellow text-glow-yellow mb-4">
+        Donde las ideas se sueldan, se imprimen y cobran vida.
+      </p>
+
+      <p class="text-base sm:text-lg text-slate-200 max-w-2xl mx-auto mb-10">
+        Un nuevo espacio de fabricación digital y prototipado abierto a estudiantes, profesorado y empresas.
+        Impresión 3D, CNC, láser, electrónica y mucho más, en pleno campus de Telecomunicación.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
+        <a href="#clubes" class="w-full sm:w-auto btn-neon-pink text-retro-bg font-bold px-8 py-3 rounded-full text-sm sm:text-base">
+          🎓 Soy estudiante
+        </a>
+        <a href="#patrocinio" class="w-full sm:w-auto btn-neon-cyan font-bold px-8 py-3 rounded-full text-sm sm:text-base">
+          🤝 Quiero patrocinar
+        </a>
+      </div>
+
+      <!-- Interactive co-funding progress bar -->
+      <div class="max-w-xl mx-auto bg-retro-panel/80 border-2 border-neon-purple/50 rounded-2xl p-5 sm:p-6">
+        <div class="flex items-center justify-between mb-3 text-xs sm:text-sm font-bold">
+          <span class="text-neon-cyan">🚀 Objetivo de cofinanciación inicial</span>
+          <span id="progressPercentageLabel" class="text-neon-yellow">0%</span>
+        </div>
+        <div class="w-full h-5 bg-retro-bg rounded-full overflow-hidden border border-neon-cyan/40">
+          <div id="fundingProgressBar" class="progress-fill h-full rounded-full" style="width: 0%"
+               data-target-amount="45000" data-current-amount="18500"></div>
+        </div>
+        <div class="flex items-center justify-between mt-3 text-[11px] sm:text-xs text-slate-300">
+          <span><span id="progressCurrentLabel">0</span> € recaudados</span>
+          <span>Meta: 45.000 €</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2. PROJECT SUMMARY ============ -->
+  <section id="proyecto" class="relative py-20 px-4 sm:px-6 lg:px-8 bg-retro-bg-2/60">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <p class="font-display text-neon-cyan text-[10px] sm:text-xs mb-4 text-glow-cyan">// EL PROYECTO</p>
+        <h2 class="font-display text-xl sm:text-3xl text-neon-pink text-glow-pink mb-6 leading-relaxed">
+          Un sótano que se convierte en el futuro
+        </h2>
+        <p class="text-slate-200 mb-4 leading-relaxed">
+          En el sótano del Edificio A de la ETSIT UPM nace un espacio que llevaba años esperando su momento:
+          el nuevo <span class="text-neon-yellow font-bold">laboratorio de fabricación digital y prototipado</span> de la escuela.
+          Un lugar pensado por y para la comunidad universitaria, donde el conocimiento teórico de las aulas
+          se transforma en circuitos soldados, piezas impresas y prototipos funcionales.
+        </p>
+        <p class="text-slate-200 mb-4 leading-relaxed">
+          El objetivo es sencillo pero ambicioso: dotar a estudiantes de todas las titulaciones, a los grupos
+          de investigación y a las asociaciones estudiantiles de un taller compartido, moderno y abierto,
+          equipado con tecnología que hasta ahora solo se veía en la industria.
+        </p>
+        <p class="text-slate-200 leading-relaxed">
+          Gracias a la colaboración entre la escuela, los institutos de investigación y empresas patrocinadoras,
+          este proyecto convertirá un espacio infrautilizado en el corazón "maker" de la ETSIT.
+        </p>
+      </div>
+      <div class="retro-card rounded-2xl p-8 text-center">
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <p class="font-display text-neon-yellow text-2xl sm:text-3xl text-glow-yellow">+300 m²</p>
+            <p class="text-xs sm:text-sm text-slate-300 mt-2">de nuevo espacio maker</p>
+          </div>
+          <div>
+            <p class="font-display text-neon-cyan text-2xl sm:text-3xl text-glow-cyan">4</p>
+            <p class="text-xs sm:text-sm text-slate-300 mt-2">zonas especializadas</p>
+          </div>
+          <div>
+            <p class="font-display text-neon-pink text-2xl sm:text-3xl text-glow-pink">6+</p>
+            <p class="text-xs sm:text-sm text-slate-300 mt-2">asociaciones implicadas</p>
+          </div>
+          <div>
+            <p class="font-display text-neon-yellow text-2xl sm:text-3xl text-glow-yellow">3</p>
+            <p class="text-xs sm:text-sm text-slate-300 mt-2">titulaciones destacadas</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. LABORATORY ZONES ============ -->
+  <section id="zonas" class="py-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-14">
+        <p class="font-display text-neon-cyan text-[10px] sm:text-xs mb-4 text-glow-cyan">// ZONAS DEL LABORATORIO</p>
+        <h2 class="font-display text-xl sm:text-3xl text-neon-pink text-glow-pink">Cuatro rincones para crear</h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <article class="retro-card rounded-2xl p-6">
+          <div class="text-4xl mb-4">🖨️</div>
+          <h3 class="font-display text-sm text-neon-yellow text-glow-yellow mb-3">Impresión 3D</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Impresoras FDM, SLA de resina y una impresora metálica para prototipos funcionales,
+            piezas de precisión y maquetas de proyectos de fin de grado.
+          </p>
+        </article>
+
+        <article class="retro-card rounded-2xl p-6">
+          <div class="text-4xl mb-4">⚙️</div>
+          <h3 class="font-display text-sm text-neon-yellow text-glow-yellow mb-3">CNC y Corte Láser</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Fresado CNC y corte/grabado láser para madera, metacrilato y placas de circuito,
+            ideal para carcasas, attrezzo y prototipado rápido.
+          </p>
+        </article>
+
+        <article class="retro-card rounded-2xl p-6">
+          <div class="text-4xl mb-4">🔧</div>
+          <h3 class="font-display text-sm text-neon-yellow text-glow-yellow mb-3">Banco de Soldadura</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Estaciones de soldadura, microscopios y herramientas de electrónica para montar,
+            reparar y depurar placas PCB y prototipos electrónicos.
+          </p>
+        </article>
+
+        <article class="retro-card rounded-2xl p-6">
+          <div class="text-4xl mb-4">🎓</div>
+          <h3 class="font-display text-sm text-neon-yellow text-glow-yellow mb-3">Aula Polivalente</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Espacio de formación para talleres, charlas de empresas patrocinadoras y sesiones
+            de introducción a herramientas de diseño y fabricación digital.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. STUDENT CLUBS HUB ============ -->
+  <section id="clubes" class="py-20 px-4 sm:px-6 lg:px-8 bg-retro-bg-2/60">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-14">
+        <p class="font-display text-neon-cyan text-[10px] sm:text-xs mb-4 text-glow-cyan">// PARA LAS ASOCIACIONES</p>
+        <h2 class="font-display text-xl sm:text-3xl text-neon-pink text-glow-pink mb-4">El hub de los clubes estudiantiles</h2>
+        <p class="text-slate-300 max-w-2xl mx-auto">
+          Un espacio reservado a las asociaciones de la ETSIT para reservar talleres, construir attrezzo
+          y personalizar su propio merchandising.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+        <div class="retro-card rounded-2xl p-6 text-center">
+          <p class="text-3xl mb-2">📡</p>
+          <p class="font-bold text-neon-cyan">IEEE ETSIT</p>
+        </div>
+        <div class="retro-card rounded-2xl p-6 text-center">
+          <p class="text-3xl mb-2">🎤</p>
+          <p class="font-bold text-neon-cyan">CROM</p>
+        </div>
+        <div class="retro-card rounded-2xl p-6 text-center">
+          <p class="text-3xl mb-2">🎉</p>
+          <p class="font-bold text-neon-cyan">Euriele</p>
+        </div>
+        <div class="retro-card rounded-2xl p-6 text-center">
+          <p class="text-3xl mb-2">🎭</p>
+          <p class="font-bold text-neon-cyan">Grupo de Teatro</p>
+        </div>
+        <div class="retro-card rounded-2xl p-6 text-center">
+          <p class="text-3xl mb-2">⚽</p>
+          <p class="font-bold text-neon-cyan">Asociaciones Deportivas</p>
+        </div>
+        <div class="retro-card rounded-2xl p-6 text-center">
+          <p class="text-3xl mb-2">🎓</p>
+          <p class="font-bold text-neon-cyan">Comisiones de Graduación</p>
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-3 gap-6">
+        <div class="rounded-2xl p-6 border border-neon-pink/40 bg-retro-panel/60">
+          <h3 class="font-bold text-neon-yellow mb-2">📅 Reserva de talleres</h3>
+          <p class="text-sm text-slate-300">Sistema de reserva por franjas para que cada asociación disponga de su espacio para ensayar, montar y crear.</p>
+        </div>
+        <div class="rounded-2xl p-6 border border-neon-pink/40 bg-retro-panel/60">
+          <h3 class="font-bold text-neon-yellow mb-2">🛠️ Construcción de attrezzo</h3>
+          <p class="text-sm text-slate-300">Impresión 3D y corte láser para decorados de teatro, disfraces de novatadas y elementos de eventos.</p>
+        </div>
+        <div class="rounded-2xl p-6 border border-neon-pink/40 bg-retro-panel/60">
+          <h3 class="font-bold text-neon-yellow mb-2">👕 Merchandising a medida</h3>
+          <p class="text-sm text-slate-300">Personalización de sudaderas, chapas y llaveros para graduaciones, eventos deportivos y campañas de las asociaciones.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5. REPAIR SHOP ============ -->
+  <section id="reparador" class="py-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+      <div class="retro-card rounded-2xl p-8 order-2 md:order-1">
+        <ul class="space-y-4 text-sm text-slate-200">
+          <li class="flex gap-3"><span class="text-neon-yellow">①</span> Trae tu dispositivo averiado al laboratorio.</li>
+          <li class="flex gap-3"><span class="text-neon-yellow">②</span> Estudiantes voluntarios realizan un diagnóstico gratuito.</li>
+          <li class="flex gap-3"><span class="text-neon-yellow">③</span> Reparamos electrónica de consumo: portátiles, móviles, pequeños electrodomésticos.</li>
+          <li class="flex gap-3"><span class="text-neon-yellow">④</span> Si no tiene arreglo, se recicla correctamente sus componentes.</li>
+        </ul>
+      </div>
+      <div class="order-1 md:order-2">
+        <p class="font-display text-neon-cyan text-[10px] sm:text-xs mb-4 text-glow-cyan">// SOSTENIBILIDAD</p>
+        <h2 class="font-display text-xl sm:text-3xl text-neon-pink text-glow-pink mb-6">🛠️ "El Reparador"</h2>
+        <p class="text-slate-200 mb-4 leading-relaxed">
+          Un rincón del laboratorio dedicado a alargar la vida de los aparatos electrónicos. Los estudiantes
+          traen sus dispositivos rotos y, junto a compañeros voluntarios, aprenden a diagnosticar y reparar
+          fallos reales aplicando lo aprendido en clase.
+        </p>
+        <p class="text-slate-200 leading-relaxed">
+          Menos residuos electrónicos, más habilidades prácticas y una comunidad que cuida su tecnología
+          en lugar de tirarla a la primera avería.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6. ACADEMIC IMPACT ============ -->
+  <section id="impacto" class="py-20 px-4 sm:px-6 lg:px-8 bg-retro-bg-2/60">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-14">
+        <p class="font-display text-neon-cyan text-[10px] sm:text-xs mb-4 text-glow-cyan">// IMPACTO ACADÉMICO</p>
+        <h2 class="font-display text-xl sm:text-3xl text-neon-pink text-glow-pink">Un laboratorio, tres titulaciones, mil ideas</h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <article class="retro-card rounded-2xl p-6">
+          <div class="text-4xl mb-4">🦾</div>
+          <h3 class="font-bold text-neon-yellow mb-3">Ingeniería Biomédica</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Diseño y fabricación de prótesis funcionales impresas en 3D, dispositivos "wearables" para
+            monitorización de constantes vitales y carcasas biocompatibles para sensores médicos.
+          </p>
+        </article>
+
+        <article class="retro-card rounded-2xl p-6">
+          <div class="text-4xl mb-4">💾</div>
+          <h3 class="font-bold text-neon-yellow mb-3">Ingeniería de Datos</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Sistemas Linux embebido para proyectos de IoT y "edge computing", con carcasas a medida
+            impresas o cortadas en el laboratorio para sensores y nodos de recogida de datos.
+          </p>
+        </article>
+
+        <article class="retro-card rounded-2xl p-6">
+          <div class="text-4xl mb-4">📡</div>
+          <h3 class="font-bold text-neon-yellow mb-3">Ingeniería de Telecomunicación</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Montaje y soldadura de placas PCB propias, integración de antenas y bancos de pruebas
+            de radiofrecuencia (RF) para proyectos de comunicaciones inalámbricas.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 7. SPONSORSHIP TIERS ============ -->
+  <section id="patrocinio" class="py-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-14">
+        <p class="font-display text-neon-cyan text-[10px] sm:text-xs mb-4 text-glow-cyan">// PATROCINIO</p>
+        <h2 class="font-display text-xl sm:text-3xl text-neon-pink text-glow-pink mb-4">Súmate al proyecto</h2>
+        <p class="text-slate-300 max-w-2xl mx-auto">
+          Institutos de investigación de la UPM y empresas líderes del sector tecnológico pueden colaborar
+          en la puesta en marcha del laboratorio con distintos niveles de patrocinio.
+        </p>
+      </div>
+
+      <!-- Research institutes -->
+      <div class="mb-12">
+        <h3 class="font-bold text-neon-cyan mb-4 text-center">🏛️ Institutos de investigación colaboradores</h3>
+        <div class="flex flex-wrap justify-center gap-4">
+          <span class="retro-card rounded-full px-5 py-2 text-sm font-bold text-neon-yellow">IES</span>
+          <span class="retro-card rounded-full px-5 py-2 text-sm font-bold text-neon-yellow">ISOM</span>
+          <span class="retro-card rounded-full px-5 py-2 text-sm font-bold text-neon-yellow">CEMDATIC</span>
+          <span class="retro-card rounded-full px-5 py-2 text-sm font-bold text-neon-yellow">IPTC</span>
+        </div>
+      </div>
+
+      <!-- Corporate tiers -->
+      <div class="grid md:grid-cols-3 gap-6 mb-12">
+        <div class="retro-card rounded-2xl p-6 border-t-4 border-t-neon-cyan">
+          <span class="badge-tier inline-block text-xs font-bold px-3 py-1 rounded-full bg-neon-cyan/20 text-neon-cyan mb-4">NIVEL BRONCE</span>
+          <p class="text-2xl font-display text-neon-cyan mb-4">🔷</p>
+          <ul class="text-sm text-slate-300 space-y-2">
+            <li>✔ Logo en la web y cartelería del laboratorio</li>
+            <li>✔ Mención en redes sociales</li>
+            <li>✔ Acceso a jornadas de puertas abiertas</li>
+          </ul>
+        </div>
+        <div class="retro-card rounded-2xl p-6 border-t-4 border-t-neon-pink relative">
+          <span class="absolute -top-3 right-4 bg-neon-pink text-retro-bg text-[10px] font-bold px-3 py-1 rounded-full">MÁS POPULAR</span>
+          <span class="badge-tier inline-block text-xs font-bold px-3 py-1 rounded-full bg-neon-pink/20 text-neon-pink mb-4">NIVEL PLATA</span>
+          <p class="text-2xl font-display text-neon-pink mb-4">🔶</p>
+          <ul class="text-sm text-slate-300 space-y-2">
+            <li>✔ Todo lo del nivel Bronce</li>
+            <li>✔ Naming de un banco de trabajo o equipo</li>
+            <li>✔ Charla técnica anual en el aula polivalente</li>
+            <li>✔ Acceso preferente a talleres de reclutamiento</li>
+          </ul>
+        </div>
+        <div class="retro-card rounded-2xl p-6 border-t-4 border-t-neon-yellow">
+          <span class="badge-tier inline-block text-xs font-bold px-3 py-1 rounded-full bg-neon-yellow/20 text-neon-yellow mb-4">NIVEL ORO / CÁTEDRA</span>
+          <p class="text-2xl font-display text-neon-yellow mb-4">🏆</p>
+          <ul class="text-sm text-slate-300 space-y-2">
+            <li>✔ Todo lo del nivel Plata</li>
+            <li>✔ Cátedra corporativa asociada al laboratorio</li>
+            <li>✔ Naming completo de una zona del FabLab</li>
+            <li>✔ Colaboración en proyectos y TFG/TFM</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <p class="text-sm text-slate-400 mb-4">Empresas y cátedras interesadas en colaborar:</p>
+        <div class="flex flex-wrap justify-center gap-3 text-sm font-bold text-slate-200">
+          <span class="retro-card rounded-full px-4 py-2">Huawei</span>
+          <span class="retro-card rounded-full px-4 py-2">Indra</span>
+          <span class="retro-card rounded-full px-4 py-2">Telefónica</span>
+          <span class="retro-card rounded-full px-4 py-2">NTT Data</span>
+          <span class="retro-card rounded-full px-4 py-2">Acciona</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 8. CONTACT & WAITLIST ============ -->
+  <section id="contacto" class="py-20 px-4 sm:px-6 lg:px-8 bg-retro-bg-2/60">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-10">
+        <p class="font-display text-neon-cyan text-[10px] sm:text-xs mb-4 text-glow-cyan">// ÚNETE</p>
+        <h2 class="font-display text-xl sm:text-3xl text-neon-pink text-glow-pink mb-4">Lista de espera y contacto</h2>
+        <p class="text-slate-300">
+          Apúntate a los talleres de septiembre o solicita una reunión de patrocinio. Te responderemos lo antes posible.
+        </p>
+      </div>
+
+      <form id="waitlistForm" class="retro-card rounded-2xl p-6 sm:p-8 space-y-5" novalidate>
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div>
+            <label for="fullNameInput" class="block text-sm font-bold text-neon-cyan mb-2">Nombre completo</label>
+            <input id="fullNameInput" name="fullName" type="text" required
+                   class="w-full bg-retro-bg border-2 border-neon-cyan/40 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-neon-pink"
+                   placeholder="Ada Lovelace" />
+          </div>
+          <div>
+            <label for="emailInput" class="block text-sm font-bold text-neon-cyan mb-2">Correo electrónico</label>
+            <input id="emailInput" name="email" type="email" required
+                   class="w-full bg-retro-bg border-2 border-neon-cyan/40 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-neon-pink"
+                   placeholder="ada@alumnos.upm.es" />
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div>
+            <label for="roleSelect" class="block text-sm font-bold text-neon-cyan mb-2">Perfil</label>
+            <select id="roleSelect" name="role" required
+                    class="w-full bg-retro-bg border-2 border-neon-cyan/40 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-neon-pink">
+              <option value="">Selecciona una opción</option>
+              <option value="estudiante">Estudiante</option>
+              <option value="profesorado">Profesorado / Investigación</option>
+              <option value="empresa">Empresa / Patrocinador</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          <div>
+            <label for="reasonSelect" class="block text-sm font-bold text-neon-cyan mb-2">Motivo de contacto</label>
+            <select id="reasonSelect" name="reason" required
+                    class="w-full bg-retro-bg border-2 border-neon-cyan/40 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-neon-pink">
+              <option value="">Selecciona una opción</option>
+              <option value="taller-septiembre">Unirme a los talleres de septiembre</option>
+              <option value="reunion-patrocinio">Solicitar una reunión de patrocinio</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="messageInput" class="block text-sm font-bold text-neon-cyan mb-2">Mensaje (opcional)</label>
+          <textarea id="messageInput" name="message" rows="4"
+                    class="w-full bg-retro-bg border-2 border-neon-cyan/40 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-neon-pink"
+                    placeholder="Cuéntanos brevemente tu interés en el FabLab..."></textarea>
+        </div>
+
+        <button type="submit" class="w-full btn-neon-pink text-retro-bg font-bold px-6 py-3 rounded-full">
+          🚀 Enviar solicitud
+        </button>
+
+        <p id="formFeedbackMessage" class="hidden text-center text-sm font-bold rounded-lg py-2"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="py-10 px-4 sm:px-6 lg:px-8 border-t-2 border-neon-cyan/30 text-center">
+    <p class="font-display text-neon-pink text-xs text-glow-pink mb-3">FABLAB · ETSIT UPM</p>
+    <p class="text-sm text-slate-400">
+      Escuela Técnica Superior de Ingenieros de Telecomunicación · Universidad Politécnica de Madrid
+    </p>
+    <p class="text-xs text-slate-500 mt-2">© <span id="currentYearLabel"></span> FabLab ETSIT UPM. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    // ---------------------------------------------------------------
+    // Mobile navigation menu toggle
+    // ---------------------------------------------------------------
+    const mobileMenuButton = document.getElementById("mobileMenuButton");
+    const mobileMenuPanel = document.getElementById("mobileMenuPanel");
+    const mobileMenuIcon = document.getElementById("mobileMenuIcon");
+
+    function toggleMobileMenu() {
+      const isMenuHidden = mobileMenuPanel.classList.contains("hidden");
+      mobileMenuPanel.classList.toggle("hidden");
+      mobileMenuButton.setAttribute("aria-expanded", String(isMenuHidden));
+      mobileMenuIcon.textContent = isMenuHidden ? "✕" : "☰";
+    }
+
+    mobileMenuButton.addEventListener("click", toggleMobileMenu);
+
+    // Close mobile menu whenever a link inside it is clicked
+    document.querySelectorAll(".mobile-nav-link").forEach((linkElement) => {
+      linkElement.addEventListener("click", () => {
+        mobileMenuPanel.classList.add("hidden");
+        mobileMenuButton.setAttribute("aria-expanded", "false");
+        mobileMenuIcon.textContent = "☰";
+      });
+    });
+
+    // ---------------------------------------------------------------
+    // Highlight the active navigation link based on scroll position
+    // ---------------------------------------------------------------
+    const observedSections = document.querySelectorAll("section[id]");
+    const desktopNavLinks = document.querySelectorAll(".nav-link");
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const currentSectionId = entry.target.getAttribute("id");
+
+          desktopNavLinks.forEach((linkElement) => {
+            const linkTargetId = linkElement.getAttribute("href")?.replace("#", "");
+            linkElement.classList.toggle("active-link", linkTargetId === currentSectionId);
+          });
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+    );
+
+    observedSections.forEach((sectionElement) => sectionObserver.observe(sectionElement));
+
+    // ---------------------------------------------------------------
+    // Animated co-funding progress bar (counts up once visible)
+    // ---------------------------------------------------------------
+    const fundingProgressBar = document.getElementById("fundingProgressBar");
+    const progressPercentageLabel = document.getElementById("progressPercentageLabel");
+    const progressCurrentLabel = document.getElementById("progressCurrentLabel");
+
+    function animateFundingProgress() {
+      const targetAmount = Number(fundingProgressBar.dataset.targetAmount);
+      const currentAmount = Number(fundingProgressBar.dataset.currentAmount);
+      const targetPercentage = Math.min(100, Math.round((currentAmount / targetAmount) * 100));
+
+      const animationDurationMs = 1500;
+      const animationStartTime = performance.now();
+
+      function updateProgressFrame(frameTime) {
+        const elapsedRatio = Math.min(1, (frameTime - animationStartTime) / animationDurationMs);
+        const easedRatio = 1 - Math.pow(1 - elapsedRatio, 3); // ease-out cubic
+
+        const displayedPercentage = Math.round(easedRatio * targetPercentage);
+        const displayedAmount = Math.round(easedRatio * currentAmount);
+
+        fundingProgressBar.style.width = `${displayedPercentage}%`;
+        progressPercentageLabel.textContent = `${displayedPercentage}%`;
+        progressCurrentLabel.textContent = displayedAmount.toLocaleString("es-ES");
+
+        if (elapsedRatio < 1) {
+          requestAnimationFrame(updateProgressFrame);
+        }
+      }
+
+      requestAnimationFrame(updateProgressFrame);
+    }
+
+    let hasFundingProgressAnimated = false;
+    const heroSectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasFundingProgressAnimated) {
+            hasFundingProgressAnimated = true;
+            animateFundingProgress();
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+    heroSectionObserver.observe(fundingProgressBar);
+
+    // ---------------------------------------------------------------
+    // Occasional retro glitch flicker on the hero title
+    // ---------------------------------------------------------------
+    const heroTitle = document.getElementById("heroTitle");
+
+    function triggerGlitchEffect() {
+      heroTitle.classList.add("glitch-active");
+      window.setTimeout(() => heroTitle.classList.remove("glitch-active"), 300);
+    }
+
+    window.setInterval(triggerGlitchEffect, 4500);
+
+    // ---------------------------------------------------------------
+    // Waitlist / contact form handling (static page, no backend)
+    // ---------------------------------------------------------------
+    const waitlistForm = document.getElementById("waitlistForm");
+    const formFeedbackMessage = document.getElementById("formFeedbackMessage");
+    const WAITLIST_STORAGE_KEY = "fablabEtsitWaitlistEntries";
+
+    function readStoredWaitlistEntries() {
+      try {
+        const rawEntries = localStorage.getItem(WAITLIST_STORAGE_KEY);
+        return rawEntries ? JSON.parse(rawEntries) : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveWaitlistEntry(entry) {
+      const existingEntries = readStoredWaitlistEntries();
+      existingEntries.push(entry);
+      localStorage.setItem(WAITLIST_STORAGE_KEY, JSON.stringify(existingEntries));
+    }
+
+    function showFormFeedback(message, isSuccess) {
+      formFeedbackMessage.textContent = message;
+      formFeedbackMessage.classList.remove("hidden", "bg-neon-cyan/20", "text-neon-cyan", "bg-neon-pink/20", "text-neon-pink");
+      if (isSuccess) {
+        formFeedbackMessage.classList.add("bg-neon-cyan/20", "text-neon-cyan");
+      } else {
+        formFeedbackMessage.classList.add("bg-neon-pink/20", "text-neon-pink");
+      }
+    }
+
+    waitlistForm.addEventListener("submit", (submitEvent) => {
+      submitEvent.preventDefault();
+
+      const fullName = document.getElementById("fullNameInput").value.trim();
+      const email = document.getElementById("emailInput").value.trim();
+      const role = document.getElementById("roleSelect").value;
+      const reason = document.getElementById("reasonSelect").value;
+      const message = document.getElementById("messageInput").value.trim();
+
+      if (!fullName || !email || !role || !reason) {
+        showFormFeedback("⚠ Por favor, completa todos los campos obligatorios.", false);
+        return;
+      }
+
+      saveWaitlistEntry({
+        fullName,
+        email,
+        role,
+        reason,
+        message,
+        submittedAt: new Date().toISOString(),
+      });
+
+      showFormFeedback("✅ ¡Solicitud registrada! Te contactaremos muy pronto.", true);
+      waitlistForm.reset();
+    });
+
+    // Pre-fill the contact reason when a sponsorship CTA is used elsewhere
+    function requestSponsorshipMeeting() {
+      const reasonSelect = document.getElementById("reasonSelect");
+      reasonSelect.value = "reunion-patrocinio";
+      document.getElementById("contacto").scrollIntoView({ behavior: "smooth" });
+    }
+
+    // ---------------------------------------------------------------
+    // Footer current year
+    // ---------------------------------------------------------------
+    document.getElementById("currentYearLabel").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
