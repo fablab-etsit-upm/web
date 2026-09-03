@@ -9,6 +9,9 @@
 <!-- Tailwind CSS via CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
 
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="assets/img/fablab-etsit-logo.svg" />
+
 <!-- Retro display fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -117,15 +120,45 @@
   .sun-glow {
     position: absolute;
     left: 50%;
-    top: 12%;
-    width: 260px;
-    height: 260px;
+    top: -70px;
+    width: 220px;
+    height: 220px;
     transform: translateX(-50%);
     border-radius: 9999px;
     background: linear-gradient(180deg, #f9f871 0%, #ff8c42 45%, #ff2d95 100%);
     box-shadow: 0 0 80px rgba(255, 140, 66, 0.6);
-    opacity: 0.85;
+    opacity: 0.35;
+    filter: blur(2px);
     z-index: 0;
+  }
+
+  /* Custom logo glow, used in the nav bar and the hero emblem */
+  .logo-glow {
+    filter: drop-shadow(0 0 6px rgba(5, 217, 232, 0.6)) drop-shadow(0 0 14px rgba(255, 122, 26, 0.45));
+  }
+
+  /* Arcade high-score style ticker for the student clubs section */
+  .marquee-viewport {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll 26s linear infinite;
+  }
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Distinct diagonal-stripe background to visually separate the hackathon section */
+  .hack-section-bg {
+    background-color: #12082c;
+    background-image:
+      repeating-linear-gradient(135deg, rgba(255, 45, 149, 0.12) 0px, rgba(255, 45, 149, 0.12) 2px, transparent 2px, transparent 26px),
+      linear-gradient(180deg, rgba(168, 85, 247, 0.18), rgba(13, 2, 33, 0.4));
   }
 
   /* Glitch flicker for the hero title */
@@ -241,7 +274,7 @@
     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <a href="#inicio" class="flex items-center gap-2 font-display text-neon-pink text-xs sm:text-sm text-glow-pink">
-          <span aria-hidden="true">🕹️</span>
+          <img src="assets/img/fablab-etsit-logo.svg" alt="" class="h-8 w-8 logo-glow" aria-hidden="true" />
           <span>FABLAB·ETSIT</span>
         </a>
 
@@ -281,6 +314,8 @@
     <div class="sun-glow"></div>
 
     <div class="relative z-10 max-w-5xl mx-auto text-center">
+      <img src="assets/img/fablab-etsit-logo.svg" alt="Logo FabLab ETSIT UPM" class="h-20 sm:h-24 mx-auto mb-6 logo-glow" />
+
       <p class="font-display text-neon-cyan text-glow-cyan text-[10px] sm:text-xs mb-6 tracking-widest">ETSIT · UPM · SÓTANO EDIFICIO A</p>
 
       <h1 id="heroTitle" class="font-display text-3xl sm:text-5xl lg:text-6xl leading-tight text-neon-pink text-glow-pink mb-6">
@@ -466,18 +501,103 @@
   <!-- ============ 5. STUDENT CLUBS HUB ============ -->
   <section id="clubes" class="py-20 px-4 sm:px-6 lg:px-8 bg-retro-bg-2/60">
     <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-14">
+      <div class="text-center mb-12">
         <p class="font-display text-neon-cyan text-[10px] sm:text-xs mb-4 text-glow-cyan">// PARA LAS ASOCIACIONES</p>
         <h2 class="font-display text-xl sm:text-3xl text-neon-pink text-glow-pink mb-4">FabLab como hub de los clubes estudiantiles</h2>
         <p class="text-slate-300 max-w-2xl mx-auto">
-          El FabLab es un espacio que complementa perfectamente a nuestros clubes de alumnos. Pueden usarlo para talleres, construir material, attrezzo para sus obras de teatro, personalizar su propio merchandising (llaveros, posavasos...). ¿Eres <i>del deportivo</i>?, ¡pues imprime un muñeco para el futbolín! ¿Del Delta? ¡Arregla ya ese altavoz! ¿Del Ícaro? ¡Diseña tu dron para grabarte escalando! ¿Del Euri? ¡Imprímete unos premios para las mejores empresas! Seas del club que seas, seguro que FabLab tiene un rincón para ti.
-        </p>
-        <h3 class="font-display text-xl sm:text-3xl text-neon-pink text-glow-pink mb-4">Hackatones</h3>
-        <p class="text-slate-200 mb-4 leading-relaxed">
-          El FabLab es el lugar ideal para organizar hackatones y maratones de innovación. Con acceso a herramientas de fabricación digital, los participantes pueden prototipar rápidamente sus ideas, desde dispositivos electrónicos hasta modelos físicos. Además, el laboratorio ofrece un entorno colaborativo donde los equipos pueden intercambiar conocimientos y habilidades, fomentando la creatividad y la resolución de problemas en tiempo real.
+          El FabLab es un espacio que <span class="text-neon-yellow font-bold">complementa perfectamente a nuestros clubes de alumnos</span>.
+          Pueden usarlo para <span class="font-bold text-white">reservar talleres</span>, construir material y <span class="font-bold text-white">attrezzo</span> para sus obras de teatro,
+          o personalizar su propio <span class="font-bold text-white">merchandising</span> (llaveros, posavasos...).
+          ¿Eres <i>del deportivo</i>? ¡pues imprime un muñeco para el futbolín! ¿Del Delta? ¡arregla ya ese altavoz!
+          ¿Del Ícaro? ¡diseña tu dron para grabarte escalando! ¿Del Euri? ¡imprímete unos premios para las mejores empresas!
+          Seas del club que seas, seguro que <span class="text-neon-cyan font-bold">FabLab tiene un rincón para ti</span>.
         </p>
       </div>
-      
+
+      <!-- Arcade-style scrolling ticker with the participating clubs -->
+      <div class="marquee-viewport border-y-2 border-dashed border-neon-pink/40 py-4 mb-12">
+        <div class="marquee-track">
+          <div class="flex items-center gap-10 pr-10 text-sm sm:text-base font-bold whitespace-nowrap">
+            <span class="text-neon-cyan">📡 IEEE ETSIT</span>
+            <span class="text-neon-pink">🎤 CROM</span>
+            <span class="text-neon-yellow">🎉 EURIELE</span>
+            <span class="text-neon-cyan">🎭 TEATRO</span>
+            <span class="text-neon-pink">🪂 ÍCARO</span>
+            <span class="text-neon-yellow">🔊 DELTA</span>
+            <span class="text-neon-cyan">⚽ ASOC. DEPORTIVAS</span>
+            <span class="text-neon-pink">🎓 COMISIONES DE GRADUACIÓN</span>
+          </div>
+          <div class="flex items-center gap-10 pr-10 text-sm sm:text-base font-bold whitespace-nowrap" aria-hidden="true">
+            <span class="text-neon-cyan">📡 IEEE ETSIT</span>
+            <span class="text-neon-pink">🎤 CROM</span>
+            <span class="text-neon-yellow">🎉 EURIELE</span>
+            <span class="text-neon-cyan">🎭 TEATRO</span>
+            <span class="text-neon-pink">🪂 ÍCARO</span>
+            <span class="text-neon-yellow">🔊 DELTA</span>
+            <span class="text-neon-cyan">⚽ ASOC. DEPORTIVAS</span>
+            <span class="text-neon-pink">🎓 COMISIONES DE GRADUACIÓN</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-3 gap-6">
+        <div class="retro-card rounded-2xl p-6">
+          <p class="text-3xl mb-3">📅</p>
+          <h3 class="font-bold text-neon-yellow mb-2">Reserva de talleres</h3>
+          <p class="text-sm text-slate-300">Sistema de reserva por franjas para que <span class="font-bold text-white">cada asociación disponga de su espacio</span> para ensayar, montar y crear.</p>
+        </div>
+        <div class="retro-card rounded-2xl p-6">
+          <p class="text-3xl mb-3">🛠️</p>
+          <h3 class="font-bold text-neon-yellow mb-2">Construcción de attrezzo</h3>
+          <p class="text-sm text-slate-300"><span class="font-bold text-white">Impresión 3D y corte láser</span> para decorados de teatro, disfraces de novatadas y elementos de eventos.</p>
+        </div>
+        <div class="retro-card rounded-2xl p-6">
+          <p class="text-3xl mb-3">👕</p>
+          <h3 class="font-bold text-neon-yellow mb-2">Merchandising a medida</h3>
+          <p class="text-sm text-slate-300">Personalización de <span class="font-bold text-white">sudaderas, chapas y llaveros</span> para graduaciones, eventos deportivos y campañas de las asociaciones.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5b. HACKATHONS (own section with a distinct background) ============ -->
+  <section id="hack" class="hack-section-bg py-20 px-4 sm:px-6 lg:px-8 border-y-2 border-neon-purple/40">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="inline-block font-display text-[10px] sm:text-xs px-4 py-2 rounded-full bg-neon-pink/15 text-neon-pink badge-tier mb-5">👾 INSERT COIN</span>
+        <h3 class="font-display text-xl sm:text-3xl text-neon-yellow text-glow-yellow mb-4">Hackatones en el FabLab</h3>
+        <p class="text-slate-200 max-w-3xl mx-auto leading-relaxed">
+          El FabLab es el lugar ideal para organizar <span class="font-bold text-white">hackatones y maratones de innovación</span>.
+          Con acceso a herramientas de fabricación digital, los equipos pueden <span class="text-neon-cyan font-bold">prototipar rápidamente sus ideas</span>,
+          desde dispositivos electrónicos hasta modelos físicos, en un entorno colaborativo que fomenta la creatividad y la
+          <span class="font-bold text-white">resolución de problemas en tiempo real</span>.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <div class="retro-card rounded-2xl p-5 text-center">
+          <p class="font-display text-neon-pink text-lg sm:text-xl text-glow-pink">24-48H</p>
+          <p class="text-xs text-slate-300 mt-2">de creación sin parar</p>
+        </div>
+        <div class="retro-card rounded-2xl p-5 text-center">
+          <p class="font-display text-neon-cyan text-lg sm:text-xl text-glow-cyan">🏆</p>
+          <p class="text-xs text-slate-300 mt-2">premios y reconocimiento</p>
+        </div>
+        <div class="retro-card rounded-2xl p-5 text-center">
+          <p class="font-display text-neon-yellow text-lg sm:text-xl text-glow-yellow">🤝</p>
+          <p class="text-xs text-slate-300 mt-2">mentores de empresas patrocinadoras</p>
+        </div>
+        <div class="retro-card rounded-2xl p-5 text-center">
+          <p class="font-display text-neon-pink text-lg sm:text-xl text-glow-pink">🖨️</p>
+          <p class="text-xs text-slate-300 mt-2">prototipado a golpe de máquina</p>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <a href="#contacto" class="inline-block btn-neon-cyan font-bold px-8 py-3 rounded-full text-sm sm:text-base">
+          🕹️ Quiero organizar un hackathon aquí
+        </a>
+      </div>
     </div>
   </section>
 
@@ -496,11 +616,15 @@
         <p class="font-display text-neon-cyan text-[10px] sm:text-xs mb-4 text-glow-cyan">// SOSTENIBILIDAD, ¡AQUÍ NO SE TIRA NA'!</p>
         <h2 class="font-display text-xl sm:text-3xl text-neon-pink text-glow-pink mb-6">🛠️ "El reparador"</h2>
         <p class="text-slate-200 mb-4 leading-relaxed">
-          En la filosofía maker, DIY, todo se repara. El FabLab es tu rincón para alargar la vida de los aparatos electrónicos. ¿Se te ha roto la cafetera o la tostadora y no te atreves a meterle mano? Trae tus dispositivos rotos y el material y junto a compañeros voluntarios, aprende a diagnosticar y reparar fallos reales.
+          En la filosofía <span class="font-bold text-white">maker, DIY, todo se repara</span>. El FabLab es tu rincón para
+          <span class="text-neon-yellow font-bold"> alargar la vida de los aparatos electrónicos</span>. ¿Se te ha roto la cafetera
+          o la tostadora y no te atreves a meterle mano? Trae tus dispositivos rotos y el material y, junto a
+          <span class="font-bold text-white">compañeros voluntarios</span>, aprende a diagnosticar y reparar fallos reales.
         </p>
         <p class="text-slate-200 leading-relaxed">
-          Menos residuos electrónicos, más habilidades prácticas y una comunidad que cuida su tecnología
-          en lugar de tirarla a la primera avería. ¡Que no te digan tus padres que ya no se arregla nada y que solo se compra nuevo, aquí se repara!
+          <span class="text-neon-cyan font-bold">Menos residuos electrónicos</span>, más habilidades prácticas y una comunidad que cuida su tecnología
+          en lugar de tirarla a la primera avería. ¡Que no te digan tus padres que ya no se arregla nada y que solo se compra nuevo,
+          <span class="font-bold text-white"> aquí se repara</span>!
         </p>
       </div>
     </div>
@@ -513,7 +637,12 @@
         <p class="font-display text-neon-cyan text-[10px] sm:text-xs mb-4 text-glow-cyan">// IMPACTO ACADÉMICO</p>
         <h2 class="font-display text-xl sm:text-3xl text-neon-pink text-glow-pink">Un laboratorio, 3 Grados, 10 Máster, 1000 ideas</h2>
         <p class="text-slate-200 mb-4 leading-relaxed">
-          El FabLab es un espacio de aprendizaje práctico que complementa la formación teórica de los Grados y Másteres de la ETSIT. Los estudiantes pueden aplicar sus conocimientos en proyectos reales, desarrollar prototipos funcionales y adquirir habilidades técnicas y <i>frikear</i>, darle un <i>boost</i> a sus Trabajos de Fin de Grado y Máster, o incluso crear sus propios proyectos personales. Además, el laboratorio fomenta la colaboración entre estudiantes de diferentes titulaciones, promoviendo la innovación interdisciplinar.
+          El FabLab es un espacio de <span class="text-neon-yellow font-bold">aprendizaje práctico</span> que complementa la formación
+          teórica de los Grados y Másteres de la ETSIT. Los estudiantes pueden aplicar sus conocimientos en
+          <span class="font-bold text-white"> proyectos reales</span>, desarrollar prototipos funcionales y adquirir habilidades técnicas
+          y <i>frikear</i>, darle un <i>boost</i> a sus <span class="font-bold text-white">Trabajos de Fin de Grado y Máster</span>, o incluso
+          crear sus propios proyectos personales. Además, el laboratorio fomenta la
+          <span class="text-neon-cyan font-bold"> colaboración entre estudiantes de diferentes titulaciones</span>, promoviendo la innovación interdisciplinar.
         </p>
         
       </div>
@@ -556,12 +685,16 @@
         <p class="font-display text-neon-cyan text-[10px] sm:text-xs mb-4 text-glow-cyan">// VISITAS A LA ESCUELA</p>
         <h2 class="font-display text-xl sm:text-3xl text-neon-pink text-glow-pink">FabLab como Punto de Interés de la Escuela</h2>
         <p class="text-slate-300 max-w-2xl mx-auto">
-          ¡Que no pase un chiquillo por la ETSIT sin ver el FabLab y se imprima su muñeco! El laboratorio es un punto de interés para cualquiera de las múltiples visitas que se organizan a la escuela, desde institutos hasta grupos de estudiantes universitarios de otras facultades, campamentos de verano... Los visitantes pueden conocer de primera mano las posibilidades de la fabricación digital y la cultura maker, y hacer de su visita una experiencia interactiva y educativa.
+          ¡Que no pase un chiquillo por la ETSIT sin ver el FabLab y se imprima su muñeco! El laboratorio es un
+          <span class="text-neon-yellow font-bold"> punto de interés</span> para cualquiera de las múltiples visitas que se organizan a la
+          escuela, desde institutos hasta grupos de estudiantes universitarios de otras facultades, campamentos de verano...
+          Los visitantes pueden <span class="font-bold text-white">conocer de primera mano las posibilidades de la fabricación digital y la cultura maker</span>,
+          y hacer de su visita una <span class="text-neon-cyan font-bold">experiencia interactiva y educativa</span>.
         </p>
       </div>      
     </div>
+  </section>
 
-  
   <!-- ============ 9. SPONSORSHIP TIERS ============ -->
   <section id="patrocinio" class="py-20 px-4 sm:px-6 lg:px-8">
     <div class="max-w-6xl mx-auto">
@@ -632,14 +765,16 @@
     </div>
   </section>
 
-  <!-- ============ 9. CONTACT & WAITLIST ============ -->
+  <!-- ============ 10. CONTACT & WAITLIST ============ -->
   <section id="contacto" class="py-20 px-4 sm:px-6 lg:px-8 bg-retro-bg-2/60">
     <div class="max-w-3xl mx-auto">
       <div class="text-center mb-10">
         <p class="font-display text-neon-cyan text-[10px] sm:text-xs mb-4 text-glow-cyan">// ÚNETE Y APOYA</p>
         <h2 class="font-display text-xl sm:text-3xl text-neon-pink text-glow-pink mb-4"> Estamos buscando sponsors y colaboradores</h2>
         <p class="text-slate-300">
-          Contáctanos si quieres apoyar el proyecto de alguna manera: donar material, patrocinar, organizar concursos, talleres, charlas o hackatones, descuentos en material fungible para nuestros usuarios, o cualquier otra idea que se te ocurra. ¡Estamos abiertos a propuestas!
+          Contáctanos si quieres apoyar el proyecto de alguna manera: <span class="font-bold text-white">donar material, patrocinar,
+          organizar concursos, talleres, charlas o hackatones</span>, ofrecer descuentos en material fungible para nuestros usuarios,
+          o cualquier otra idea que se te ocurra. <span class="text-neon-cyan font-bold">¡Estamos abiertos a propuestas!</span>
         </p>
       </div>
 
