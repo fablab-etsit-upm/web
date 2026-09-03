@@ -246,6 +246,7 @@
         </a>
 
         <div class="hidden lg:flex items-center gap-6 text-sm font-semibold tracking-wide">
+          <a href="#que-es-un-fablab" class="nav-link hover:text-neon-cyan transition-colors">¿Qué es?</a>
           <a href="#proyecto" class="nav-link hover:text-neon-cyan transition-colors">El Proyecto</a>
           <a href="#zonas" class="nav-link hover:text-neon-cyan transition-colors">Zonas</a>
           <a href="#clubes" class="nav-link hover:text-neon-cyan transition-colors">Clubes</a>
@@ -262,6 +263,7 @@
 
       <!-- Mobile menu panel -->
       <div id="mobileMenuPanel" class="hidden lg:hidden pb-4 flex flex-col gap-3 text-sm font-semibold">
+        <a href="#que-es-un-fablab" class="mobile-nav-link hover:text-neon-cyan">¿Qué es?</a>
         <a href="#proyecto" class="mobile-nav-link hover:text-neon-cyan">El Proyecto</a>
         <a href="#zonas" class="mobile-nav-link hover:text-neon-cyan">Zonas</a>
         <a href="#clubes" class="mobile-nav-link hover:text-neon-cyan">Clubes</a>
@@ -321,7 +323,36 @@
     </div>
   </section>
 
-  <!-- ============ 2. PROJECT SUMMARY ============ -->
+  <!-- ============ 2. WHAT IS A FABLAB ============ -->
+  <section id="que-es-un-fablab" class="relative py-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-5 gap-10 items-center">
+      <div class="md:col-span-3">
+        <p class="font-display text-neon-cyan text-[10px] sm:text-xs mb-4 text-glow-cyan">// PARA EMPEZAR</p>
+        <h2 class="font-display text-xl sm:text-3xl text-neon-pink text-glow-pink mb-6">¿Qué es un FabLab?</h2>
+        <p class="text-slate-200 mb-4 leading-relaxed">
+          Un <span class="text-neon-yellow font-bold">Fab Lab</span> (laboratorio de fabricación digital) es un
+          espacio para jugar, crear, aprender e inventar. Da acceso al entorno, las habilidades, los materiales
+          y la tecnología avanzada necesarios para fabricar <span class="text-neon-cyan font-bold">casi cualquier cosa</span>.
+        </p>
+        <p class="text-slate-200 leading-relaxed">
+          Existe una red internacional de más de <span class="text-neon-yellow font-bold">1.750 Fab Labs</span> en
+          más de 100 países, impulsada por la Fab Foundation y recogida en fablabs.io: una comunidad abierta de
+          fabricantes, artistas, científicas, ingenieros, docentes y estudiantes que comparten herramientas y conocimiento.
+        </p>
+      </div>
+      <div class="md:col-span-2 retro-card rounded-2xl p-6 text-center">
+        <p class="text-3xl mb-3">🌍</p>
+        <p class="font-bold text-neon-cyan mb-2">Aún no somos red oficial</p>
+        <p class="text-sm text-slate-300 leading-relaxed mb-4">
+          Estamos construyendo el espacio durante 2026. Nuestro objetivo es cumplir los requisitos e
+          incorporarnos a la red internacional de fablabs.io en 2027.
+        </p>
+        <span class="inline-block text-xs font-bold px-4 py-2 rounded-full bg-neon-yellow/15 text-neon-yellow badge-tier">🚧 En construcción · Rumbo a 2027</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. PROJECT SUMMARY ============ -->
   <section id="proyecto" class="relative py-20 px-4 sm:px-6 lg:px-8 bg-retro-bg-2/60">
     <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
       <div>
@@ -366,9 +397,26 @@
         </div>
       </div>
     </div>
+
+    <!-- Theoretical / conceptual layout map, playful synthwave placeholder until the real Building A blueprint exists -->
+    <div class="max-w-5xl mx-auto mt-16">
+      <div class="text-center mb-6">
+        <p class="font-display text-neon-cyan text-[10px] sm:text-xs mb-3 text-glow-cyan">// MAPA DE FANTASÍA</p>
+        <h3 class="font-display text-lg sm:text-2xl text-neon-yellow text-glow-yellow">Así podría verse (de momento, es pura imaginación)</h3>
+      </div>
+      <div class="retro-card rounded-2xl p-3 sm:p-5">
+        <img src="assets/img/fablab-layout-map.svg"
+             alt="Plano conceptual estilo videojuego retro con las zonas previstas del FabLab: aula polivalente, impresión 3D, CNC y láser, banco de soldadura, El Reparador, almacén, zona de clubes y accesos."
+             class="w-full h-auto rounded-lg" loading="lazy" />
+      </div>
+      <p class="text-xs sm:text-sm text-slate-400 text-center mt-4 max-w-2xl mx-auto">
+        Este plano es un boceto teórico y divertido inspirado en el layout de referencia "Chicago" de la Fab Foundation.
+        Todavía no contamos con los planos definitivos del sótano del Edificio A: en cuanto estén disponibles, actualizaremos este mapa.
+      </p>
+    </div>
   </section>
 
-  <!-- ============ 3. LABORATORY ZONES ============ -->
+  <!-- ============ 4. LABORATORY ZONES ============ -->
   <section id="zonas" class="py-20 px-4 sm:px-6 lg:px-8">
     <div class="max-w-6xl mx-auto">
       <div class="text-center mb-14">
@@ -416,7 +464,7 @@
     </div>
   </section>
 
-  <!-- ============ 4. STUDENT CLUBS HUB ============ -->
+  <!-- ============ 5. STUDENT CLUBS HUB ============ -->
   <section id="clubes" class="py-20 px-4 sm:px-6 lg:px-8 bg-retro-bg-2/60">
     <div class="max-w-6xl mx-auto">
       <div class="text-center mb-14">
@@ -472,7 +520,7 @@
     </div>
   </section>
 
-  <!-- ============ 5. REPAIR SHOP ============ -->
+  <!-- ============ 6. REPAIR SHOP ============ -->
   <section id="reparador" class="py-20 px-4 sm:px-6 lg:px-8">
     <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
       <div class="retro-card rounded-2xl p-8 order-2 md:order-1">
@@ -499,7 +547,7 @@
     </div>
   </section>
 
-  <!-- ============ 6. ACADEMIC IMPACT ============ -->
+  <!-- ============ 7. ACADEMIC IMPACT ============ -->
   <section id="impacto" class="py-20 px-4 sm:px-6 lg:px-8 bg-retro-bg-2/60">
     <div class="max-w-6xl mx-auto">
       <div class="text-center mb-14">
@@ -538,7 +586,7 @@
     </div>
   </section>
 
-  <!-- ============ 7. SPONSORSHIP TIERS ============ -->
+  <!-- ============ 8. SPONSORSHIP TIERS ============ -->
   <section id="patrocinio" class="py-20 px-4 sm:px-6 lg:px-8">
     <div class="max-w-6xl mx-auto">
       <div class="text-center mb-14">
@@ -608,7 +656,7 @@
     </div>
   </section>
 
-  <!-- ============ 8. CONTACT & WAITLIST ============ -->
+  <!-- ============ 9. CONTACT & WAITLIST ============ -->
   <section id="contacto" class="py-20 px-4 sm:px-6 lg:px-8 bg-retro-bg-2/60">
     <div class="max-w-3xl mx-auto">
       <div class="text-center mb-10">
@@ -681,7 +729,12 @@
     <p class="text-sm text-slate-400">
       Escuela Técnica Superior de Ingenieros de Telecomunicación · Universidad Politécnica de Madrid
     </p>
-    <p class="text-xs text-slate-500 mt-2">© <span id="currentYearLabel"></span> FabLab ETSIT UPM. Todos los derechos reservados.</p>
+    <p class="text-xs text-slate-400 mt-4">Red internacional Fab Lab (a la que aspiramos a unirnos en 2027):</p>
+    <div class="flex flex-wrap items-center justify-center gap-4 mt-2 text-sm font-bold">
+      <a href="https://fablabs.io/" target="_blank" rel="noopener noreferrer" class="text-neon-cyan hover:text-glow-cyan hover:underline">fablabs.io ↗</a>
+      <a href="https://fabfoundation.org/" target="_blank" rel="noopener noreferrer" class="text-neon-pink hover:text-glow-pink hover:underline">Fab Foundation ↗</a>
+    </div>
+    <p class="text-xs text-slate-500 mt-4">© <span id="currentYearLabel"></span> FabLab ETSIT UPM. Todos los derechos reservados.</p>
   </footer>
 
   <script>
