@@ -945,10 +945,12 @@
       <p class="font-display text-neon-cyan text-[10px] sm:text-xs mb-4 text-glow-cyan">// QUIÉNES SOMOS</p>
       <h2 class="font-display text-xl sm:text-3xl text-neon-pink text-glow-pink mb-6">Un proyecto todavía joven</h2>
       <p class="text-slate-200 leading-relaxed mb-4">
-        El FabLab ETSIT está impulsado por <span class="font-bold text-white"> profesores de la escuela</span> 
-        y depende de <span class="text-neon-yellow font-bold">Dirección</span>, con el apoyo de la
-        <span class="font-bold text-white">Subdirección de Asuntos Económicos e Infraestructuras</span> y la
-        <span class="font-bold text-white">Subdirección de Investigación y Doctorado</span>.
+        El FabLab ETSIT UPM es una <span class="text-neon-yellow font-bold">iniciativa institucional de la Dirección de la ETSIT UPM</span>,
+        impulsada por <span class="font-bold text-white">Josué Pagán Ortiz, profesor de la escuela</span>. Cuenta con el apoyo del equipo directivo,
+        en particular de la <span class="font-bold text-white">Subdirección de Asuntos Económicos e Infraestructuras</span>
+        (<a href="mailto:subdirector.aeconomicos.etsit@upm.es" class="text-neon-cyan hover:underline">subdirector.aeconomicos.etsit@upm.es</a>)
+        y de la <span class="font-bold text-white">Subdirección de Investigación y Doctorado</span>
+        (<a href="mailto:subdireccion.id.etsit@upm.es" class="text-neon-cyan hover:underline">subdireccion.id.etsit@upm.es</a>).
       </p>
       <p class="text-slate-200 leading-relaxed">
         Contará con <span class="text-neon-cyan font-bold">personal capacitado</span> con conocimiento real de la maquinaria, y será también
@@ -970,59 +972,12 @@
         </p>
       </div>
 
-      <form id="waitlistForm" class="retro-card rounded-2xl p-6 sm:p-8 space-y-5" novalidate>
-        <div class="grid sm:grid-cols-2 gap-5">
-          <div>
-            <label for="fullNameInput" class="block text-sm font-bold text-neon-cyan mb-2">Nombre completo</label>
-            <input id="fullNameInput" name="fullName" type="text" required
-                   class="w-full bg-retro-bg border-2 border-neon-cyan/40 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-neon-pink"
-                   placeholder="Ada Lovelace" />
-          </div>
-          <div>
-            <label for="emailInput" class="block text-sm font-bold text-neon-cyan mb-2">Correo electrónico</label>
-            <input id="emailInput" name="email" type="email" required
-                   class="w-full bg-retro-bg border-2 border-neon-cyan/40 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-neon-pink"
-                   placeholder="ada@alumnos.upm.es" />
-          </div>
-        </div>
-
-        <div class="grid sm:grid-cols-2 gap-5">
-          <div>
-            <label for="roleSelect" class="block text-sm font-bold text-neon-cyan mb-2">Perfil</label>
-            <select id="roleSelect" name="role" required
-                    class="w-full bg-retro-bg border-2 border-neon-cyan/40 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-neon-pink">
-              <option value="">Selecciona una opción</option>
-              <option value="estudiante">Estudiante</option>
-              <option value="profesorado">Profesorado / Investigación</option>
-              <option value="empresa">Empresa / Patrocinador</option>
-              <option value="otro">Otro</option>
-            </select>
-          </div>
-          <div>
-            <label for="reasonSelect" class="block text-sm font-bold text-neon-cyan mb-2">Motivo de contacto</label>
-            <select id="reasonSelect" name="reason" required
-                    class="w-full bg-retro-bg border-2 border-neon-cyan/40 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-neon-pink">
-              <option value="">Selecciona una opción</option>
-              <option value="taller-septiembre">Unirme a los talleres de septiembre</option>
-              <option value="reunion-patrocinio">Solicitar una reunión de patrocinio</option>
-              <option value="otro">Otro</option>
-            </select>
-          </div>
-        </div>
-
-        <div>
-          <label for="messageInput" class="block text-sm font-bold text-neon-cyan mb-2">Mensaje (opcional)</label>
-          <textarea id="messageInput" name="message" rows="4"
-                    class="w-full bg-retro-bg border-2 border-neon-cyan/40 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-neon-pink"
-                    placeholder="Cuéntanos brevemente tu interés en el FabLab..."></textarea>
-        </div>
-
-        <button type="submit" class="w-full btn-neon-pink text-retro-bg font-bold px-6 py-3 rounded-full">
-          🚀 Enviar solicitud
-        </button>
-
-        <p id="formFeedbackMessage" class="hidden text-center text-sm font-bold rounded-lg py-2"></p>
-      </form>
+      <div class="retro-card rounded-2xl p-6 sm:p-8 text-center">
+        <p class="text-sm text-slate-300 mb-2">Contacto</p>
+        mail<p class="text-lg sm:text-xl font-bold text-neon-yellow mb-4">Josué Pagán Ortiz</p>
+        <a href="mailto:j.pagan@upm.es?subject=Contacto%20FabLab%20ETSIT"
+           class="text-neon-cyan font-bold hover:underline break-all">j.pagan@upm.es</a>
+      </div>
     </div>
   </section>
 
@@ -1148,65 +1103,6 @@
     }
 
     window.setInterval(triggerGlitchEffect, 4500);
-
-    // ---------------------------------------------------------------
-    // Waitlist / contact form handling (static page, no backend)
-    // ---------------------------------------------------------------
-    const waitlistForm = document.getElementById("waitlistForm");
-    const formFeedbackMessage = document.getElementById("formFeedbackMessage");
-    const WAITLIST_STORAGE_KEY = "fablabEtsitWaitlistEntries";
-
-    function readStoredWaitlistEntries() {
-      try {
-        const rawEntries = localStorage.getItem(WAITLIST_STORAGE_KEY);
-        return rawEntries ? JSON.parse(rawEntries) : [];
-      } catch (error) {
-        return [];
-      }
-    }
-
-    function saveWaitlistEntry(entry) {
-      const existingEntries = readStoredWaitlistEntries();
-      existingEntries.push(entry);
-      localStorage.setItem(WAITLIST_STORAGE_KEY, JSON.stringify(existingEntries));
-    }
-
-    function showFormFeedback(message, isSuccess) {
-      formFeedbackMessage.textContent = message;
-      formFeedbackMessage.classList.remove("hidden", "bg-neon-cyan/20", "text-neon-cyan", "bg-neon-pink/20", "text-neon-pink");
-      if (isSuccess) {
-        formFeedbackMessage.classList.add("bg-neon-cyan/20", "text-neon-cyan");
-      } else {
-        formFeedbackMessage.classList.add("bg-neon-pink/20", "text-neon-pink");
-      }
-    }
-
-    waitlistForm.addEventListener("submit", (submitEvent) => {
-      submitEvent.preventDefault();
-
-      const fullName = document.getElementById("fullNameInput").value.trim();
-      const email = document.getElementById("emailInput").value.trim();
-      const role = document.getElementById("roleSelect").value;
-      const reason = document.getElementById("reasonSelect").value;
-      const message = document.getElementById("messageInput").value.trim();
-
-      if (!fullName || !email || !role || !reason) {
-        showFormFeedback("⚠ Por favor, completa todos los campos obligatorios.", false);
-        return;
-      }
-
-      saveWaitlistEntry({
-        fullName,
-        email,
-        role,
-        reason,
-        message,
-        submittedAt: new Date().toISOString(),
-      });
-
-      showFormFeedback("✅ ¡Solicitud registrada! Te contactaremos muy pronto.", true);
-      waitlistForm.reset();
-    });
 
     // Pre-fill the contact reason when a sponsorship CTA is used elsewhere
     function requestSponsorshipMeeting() {
